@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import api from '../lib/api'
 import formatPrice from '../lib/formatPrice'
 import styled from '@emotion/styled'
@@ -29,6 +30,12 @@ const Table = styled.table`
 `
 
 class Products extends Component {
+  static propTypes = {
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+  }
+
   state = {
     products: [],
     error: '',
@@ -47,9 +54,13 @@ class Products extends Component {
     })
   }
 
+  goToProduct = id => {
+    const { history } = this.props
+    history.push(`/products/${id}`)
+  }
+
   render() {
     const { error, products } = this.state
-    console.log(error)
     return (
       <>
         <h1 style={{ color: colors.nevada }}>DW Collection</h1>
@@ -66,7 +77,10 @@ class Products extends Component {
             </thead>
             <tbody>
               {products.map(product => (
-                <tr key={product.id}>
+                <tr
+                  onClick={() => this.goToProduct(product.id)}
+                  key={product.id}
+                >
                   <td>{product.id}</td>
                   <td>{product.name}</td>
                   <td>

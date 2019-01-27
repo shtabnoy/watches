@@ -12,7 +12,7 @@ class Product extends Component {
   }
 
   state = {
-    watch: {},
+    product: {},
     error: '',
   }
 
@@ -25,13 +25,12 @@ class Product extends Component {
     const product = await api.getProduct(id)
     if (product.error) return this.setState({ error: product.error })
     this.setState({
-      watch: product.data.elements,
+      product: product.data.elements,
     })
   }
 
   render() {
-    const { watch } = this.state
-    console.log(watch)
+    // const { product } = this.state
     return (
       <>
         <div>1</div>
