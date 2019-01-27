@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import Routes from './routes'
-import './styles/index.scss'
+import './theme/styles.scss'
 
 class App extends Component {
   state = {}
