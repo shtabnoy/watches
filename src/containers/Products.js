@@ -11,7 +11,7 @@ const Table = styled.table`
     border: 1px solid ${colors.alto};
     padding: 8px;
   }
-  tr:nth-child(even) {
+  tr:nth-of-type(even) {
     background-color: ${colors.gallery};
   }
   th {
@@ -29,10 +29,11 @@ class Products extends Component {
 
   async componentDidMount() {
     const products = await api.getProducts()
-    if (products.error)
+    if (products.error) {
       return this.setState({
         error: products.error,
       })
+    }
     this.setState({
       products,
       error: '',
@@ -42,33 +43,36 @@ class Products extends Component {
   render() {
     const { error, products } = this.state
     return (
-      <Fragment>
-        {error && <div>{error}</div>}
-        <h1 style={{ color: colors.nevada }}>DW collection</h1>
-        <Table>
-          <thead>
-            <tr>
-              <th />
-              <th>Name</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map(product => (
-              <tr key={product.id}>
-                <td>{product.id}</td>
-                <td>{product.name}</td>
-                <td>
-                  {formatPrice(
-                    product.price.value,
-                    product.price.unitAbbreviation
-                  )}
-                </td>
+      <>
+        <h1 style={{ color: colors.nevada }}>DW Collection</h1>
+        {error ? (
+          <div className="error">{error}</div>
+        ) : (
+          <Table>
+            <thead>
+              <tr>
+                <th />
+                <th>Name</th>
+                <th>Price</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
-      </Fragment>
+            </thead>
+            <tbody>
+              {products.map(product => (
+                <tr key={product.id}>
+                  <td>{product.id}</td>
+                  <td>{product.name}</td>
+                  <td>
+                    {formatPrice(
+                      product.price.value,
+                      product.price.unitAbbreviation
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </>
     )
   }
 }

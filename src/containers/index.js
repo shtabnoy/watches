@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import Product from './Product'
 import Products from './Products'
 
-const Routes = () => (
+const Containers = () => (
   <Switch>
     <Route path="/" exact component={Products} />
     <Route path="/products" exact component={Products} />
@@ -11,4 +11,4 @@ const Routes = () => (
   </Switch>
 )
 
-export default Routes
+export default Containers
