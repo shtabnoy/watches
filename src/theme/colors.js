@@ -3,4 +3,5 @@ export default {
   nevada: '#5B6A71',
   alto: '#DDDDDD',
   gallery: '#EEEEEE',
+  apricot: '#EC7070',
 }

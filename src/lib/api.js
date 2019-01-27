@@ -18,7 +18,7 @@ const getProduct = id => {
       return res.json()
     })
     .catch(error => {
-      return { error }
+      return { error: error.message || error }
     })
 }
 
@@ -37,7 +37,7 @@ const getProducts = () => {
       return products
     })
     .catch(error => {
-      return { error }
+      return { error: error.message || error }
     })
 }
 
@@ -48,7 +48,7 @@ const getAsset = id => {
       return res.json()
     })
     .catch(error => {
-      return { error }
+      return { error: error.message || error }
     })
 }
 
