@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
+import { BrowserRouter } from 'react-router-dom'
+import Routes from './routes'
+import './styles/index.scss'
 
 class App extends Component {
   state = {}
 
   render() {
-    return <div>Hello world</div>
+    return (
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
+    )
   }
 }
 

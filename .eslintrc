@@ -2,6 +2,9 @@
   "parser": "babel-eslint",
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "plugins": ["react"],
+  "rules": {
+    "no-console": "warn"
+  },
   "globals": {
     "document": true,
     "it": true,
@@ -9,6 +12,11 @@
     "expect": true,
     "describe": true,
     "jest": true,
-    "beforeEach": true
+    "beforeEach": true,
+    "require": true,
+    "module": true,
+    "window": true,
+    "console": true,
+    "__dirname": true
   }
 }
