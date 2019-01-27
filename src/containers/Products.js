@@ -1,40 +1,34 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import api from '../lib/api'
 import formatPrice from '../lib/formatPrice'
 import styled from '@emotion/styled'
 import colors from '../theme/colors'
 import { ErrorBox } from '../components'
 
-const Table = styled.table`
-  border-collapse: collapse;
-  td,
-  th {
-    border: 1px solid ${colors.alto};
-    padding: 8px;
-  }
-  tr {
-    cursor: pointer;
-    &:nth-of-type(even) {
-      background-color: ${colors.gallery};
-    }
-    &:hover {
-      background-color: ${colors.alto};
-    }
-  }
-  th {
-    background-color: ${colors.pewter};
-    color: white;
-    text-align: left;
+const Heading = styled.h1`
+  color: ${colors.nevada};
+  margin: 0;
+  padding: 8px 16px;
+`
+
+export const ProductItem = styled(Link)`
+  text-decoration: none;
+  display: block;
+  padding: 8px 16px;
+  font-size: 20px;
+  background-color: ${colors.pewter};
+  color: white;
+  margin: 0 16px 8px;
+  display: flex;
+  justify-content: space-between;
+  &:hover {
+    background-color: ${colors.nevada};
   }
 `
 
 class Products extends Component {
-  static propTypes = {
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
-  }
+  static propTypes = {}
 
   state = {
     products: [],
@@ -54,45 +48,27 @@ class Products extends Component {
     })
   }
 
-  goToProduct = id => {
-    const { history } = this.props
-    history.push(`/products/${id}`)
-  }
-
   render() {
     const { error, products } = this.state
     return (
       <>
-        <h1 style={{ color: colors.nevada }}>DW Collection</h1>
+        <Heading>DW Collection</Heading>
         {error ? (
           <ErrorBox className="error" msg={error} />
         ) : (
-          <Table>
-            <thead>
-              <tr>
-                <th />
-                <th>Name</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map(product => (
-                <tr
-                  onClick={() => this.goToProduct(product.id)}
-                  key={product.id}
-                >
-                  <td>{product.id}</td>
-                  <td>{product.name}</td>
-                  <td>
-                    {formatPrice(
-                      product.price.value,
-                      product.price.unitAbbreviation
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <div className="product-list">
+            {products.map(product => (
+              <ProductItem to={`/products/${product.id}`} key={product.id}>
+                <div>{product.name}</div>
+                <div>
+                  {formatPrice(
+                    product.price.value,
+                    product.price.unitAbbreviation
+                  )}
+                </div>
+              </ProductItem>
+            ))}
+          </div>
         )}
       </>
     )
