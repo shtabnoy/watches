@@ -11,6 +11,10 @@
   "jest": {
     "setupFiles": [
       "<rootDir>/config/jestSetup.js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src"
     ]
   },
   "keywords": [],

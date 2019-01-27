@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import api from '../../lib/api'
-import formatPrice from '../../lib/formatPrice'
+import api from 'lib/api'
+import formatPrice from 'lib/formatPrice'
 import styled from '@emotion/styled'
-import colors from '../../theme/colors'
-import { ErrorBox } from '../../components'
-import Product from '../../types/Product'
+import colors from 'theme/colors'
+import { ErrorBox } from 'components'
+import Product from 'types/Product'
 
 const Heading = styled.h1`
   color: ${colors.nevada};
@@ -40,14 +40,16 @@ class Products extends Component {
   }
 
   async componentDidMount() {
-    const { setProducts } = this.props
-    const products = await api.getProducts()
-    if (products.error) {
+    const { products, setProducts } = this.props
+    // skip request if products were already downloaded
+    if (products.length > 0) return
+    const res = await api.getProducts()
+    if (res.error) {
       return this.setState({
-        error: products.error,
+        error: res.error,
       })
     }
-    setProducts(products)
+    setProducts(res)
   }
 
   getValue = (product, prop) => {

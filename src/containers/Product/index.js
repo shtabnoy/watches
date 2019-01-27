@@ -8,8 +8,8 @@ const ProductRoot = props => (
     {({ products, setProducts }) => (
       <Product
         product={products.find(p => p.id === props.match.params.id)}
-        {...props}
         setProducts={setProducts}
+        {...props}
       />
     )}
   </ProductContext.Consumer>

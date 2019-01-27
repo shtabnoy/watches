@@ -5,11 +5,6 @@ import ProductType from '../../types/Product'
 
 class Product extends Component {
   static propTypes = {
-    location: PropTypes.shape({
-      state: PropTypes.shape({
-        product: PropTypes.object,
-      }).isRequired,
-    }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -38,8 +33,8 @@ class Product extends Component {
 
   render() {
     // const { product } = this.state
-    const { location } = this.props
-    console.log(location)
+    // const { location } = this.props
+    // console.log(location)
     return (
       <>
         <div>1</div>

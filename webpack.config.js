@@ -11,6 +11,9 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/',
   },
+  resolve: {
+    modules: [path.resolve(__dirname, './src'), 'node_modules'],
+  },
   module: {
     rules: [
       {

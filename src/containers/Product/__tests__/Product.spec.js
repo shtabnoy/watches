@@ -4,6 +4,6 @@ import Product from '../Product'
 
 describe('Product page', () => {
   it('gets and renders a product', async () => {
-    const wrapper = await mount(<Product />)
+    const wrapper = await mount(<Product match={{ params: { id: '10' } }} />)
   })
 })
