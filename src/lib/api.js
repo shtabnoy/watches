@@ -32,7 +32,7 @@ const getProducts = () => {
       const products = []
       for (let p of res.data) {
         const product = await getProduct(p.id)
-        products.push(transformData(product.data))
+        products.push(product.data)
       }
       return products
     })

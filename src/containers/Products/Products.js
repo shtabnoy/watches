@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import api from '../lib/api'
-import formatPrice from '../lib/formatPrice'
+import api from '../../lib/api'
+import formatPrice from '../../lib/formatPrice'
 import styled from '@emotion/styled'
-import colors from '../theme/colors'
-import { ErrorBox } from '../components'
+import colors from '../../theme/colors'
+import { ErrorBox } from '../../components'
+import Product from '../../types/Product'
 
 const Heading = styled.h1`
   color: ${colors.nevada};
@@ -28,28 +30,34 @@ export const ProductItem = styled(Link)`
 `
 
 class Products extends Component {
-  static propTypes = {}
+  static propTypes = {
+    products: PropTypes.arrayOf(Product).isRequired,
+    setProducts: PropTypes.func.isRequired,
+  }
 
   state = {
-    products: [],
     error: '',
   }
 
   async componentDidMount() {
+    const { setProducts } = this.props
     const products = await api.getProducts()
     if (products.error) {
       return this.setState({
         error: products.error,
       })
     }
-    this.setState({
-      products,
-      error: '',
-    })
+    setProducts(products)
+  }
+
+  getValue = (product, prop) => {
+    const propObj = product.elements.find(el => el.name === prop)
+    if (propObj) return propObj.value
   }
 
   render() {
-    const { error, products } = this.state
+    const { products } = this.props
+    const { error } = this.state
     return (
       <>
         <Heading>DW Collection</Heading>
@@ -59,11 +67,11 @@ class Products extends Component {
           <div className="product-list">
             {products.map(product => (
               <ProductItem to={`/products/${product.id}`} key={product.id}>
-                <div>{product.name}</div>
+                <div>{this.getValue(product, 'name')}</div>
                 <div>
                   {formatPrice(
-                    product.price.value,
-                    product.price.unitAbbreviation
+                    this.getValue(product, 'price').value,
+                    this.getValue(product, 'price').unitAbbreviation
                   )}
                 </div>
               </ProductItem>

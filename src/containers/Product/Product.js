@@ -1,14 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import api from '../lib/api'
+import api from '../../lib/api'
+import ProductType from '../../types/Product'
 
 class Product extends Component {
   static propTypes = {
+    location: PropTypes.shape({
+      state: PropTypes.shape({
+        product: PropTypes.object,
+      }).isRequired,
+    }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
-        id: PropTypes.string,
-      }),
-    }),
+        id: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+    product: ProductType,
   }
 
   state = {
@@ -31,6 +38,8 @@ class Product extends Component {
 
   render() {
     // const { product } = this.state
+    const { location } = this.props
+    console.log(location)
     return (
       <>
         <div>1</div>

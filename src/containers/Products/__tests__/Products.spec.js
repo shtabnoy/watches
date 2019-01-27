@@ -1,7 +1,7 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import { MemoryRouter, Link } from 'react-router-dom'
-import Products, { ProductItem } from '../Products'
+import Products, { ProductItem } from '../Products/Products'
 import api from '../../lib/api'
 import formatPrice from '../../lib/formatPrice'
 import { products } from '../../lib/__mocks__/api'
