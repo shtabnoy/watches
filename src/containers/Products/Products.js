@@ -46,11 +46,6 @@ class Products extends Component {
     setProducts(res)
   }
 
-  // getValue = (product, prop) => {
-  //   const propObj = product.elements.find(el => el.name === prop)
-  //   if (propObj) return propObj.value
-  // }
-
   render() {
     const { products } = this.props
     const { error } = this.state
