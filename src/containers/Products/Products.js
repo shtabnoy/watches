@@ -8,12 +8,6 @@ import colors from 'theme/colors'
 import { ErrorBox } from 'components'
 import Product from 'types/Product'
 
-const Heading = styled.h1`
-  color: ${colors.nevada};
-  margin: 0;
-  padding: 8px 16px;
-`
-
 export const ProductItem = styled(Link)`
   text-decoration: none;
   display: block;
@@ -62,7 +56,7 @@ class Products extends Component {
     const { error } = this.state
     return (
       <>
-        <Heading>DW Collection</Heading>
+        <h1>DW Collection</h1>
         {error ? (
           <ErrorBox className="error" msg={error} />
         ) : (

@@ -5,10 +5,10 @@ import ProductContext from '../../contexts/ProductContext'
 
 const ProductRoot = props => (
   <ProductContext.Consumer>
-    {({ products, setProducts }) => (
+    {({ products, updateProducts }) => (
       <Product
-        product={products.find(p => p.id === props.match.params.id)}
-        setProducts={setProducts}
+        product={products.find(p => p.id == props.match.params.id)}
+        updateProducts={updateProducts}
         {...props}
       />
     )}

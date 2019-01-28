@@ -17,6 +17,7 @@ const getProduct = id => {
     .then(res => {
       return res.json()
     })
+    .then(res => res.data)
     .catch(error => {
       return { error: error.message || error }
     })
@@ -32,7 +33,7 @@ const getProducts = () => {
       const products = []
       for (let p of res.data) {
         const product = await getProduct(p.id)
-        products.push(product.data)
+        products.push(product)
       }
       return products
     })

@@ -13,6 +13,24 @@ class App extends Component {
     this.setState({ products })
   }
 
+  updateProducts = product => {
+    const { products } = this.state
+    const index = products.findIndex(p => p.id === product.id)
+    if (index >= 0) {
+      this.setState(prevState => ({
+        products: [
+          ...prevState.products.slice(0, index),
+          product,
+          ...prevState.products.slice(index + 1),
+        ],
+      }))
+    } else {
+      this.setState(prevState => ({
+        products: prevState.products.concat(product),
+      }))
+    }
+  }
+
   render() {
     const { products } = this.state
     return (
@@ -20,6 +38,7 @@ class App extends Component {
         value={{
           products,
           setProducts: this.setProducts,
+          updateProducts: this.updateProducts,
         }}
       >
         <BrowserRouter>
