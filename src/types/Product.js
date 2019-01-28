@@ -8,5 +8,6 @@ export default PropTypes.shape({
   price: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   size: PropTypes.number.isRequired,
-  assetId: PropTypes.number.isRequired,
+  imageId: PropTypes.number.isRequired,
+  imageUrl: PropTypes.string,
 })

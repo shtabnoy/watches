@@ -9,23 +9,24 @@ const getValue = (elements, prop) => {
   return ''
 }
 
-export const transformData = product => {
-  const sku = getValue(product.elements, 'sku')
-  const name = getValue(product.elements, 'name')
-  const description = getValue(product.elements, 'description')
-  const priceObj = getValue(product.elements, 'price')
-  const color = getValue(product.elements, 'color')
-  const size = getValue(product.elements, 'size')
-  const hrefObj = getValue(product.elements, 'main_image')
+export const transformData = data => {
+  const sku = getValue(data.elements, 'sku')
+  const name = getValue(data.elements, 'name')
+  const description = getValue(data.elements, 'description')
+  const priceObj = getValue(data.elements, 'price')
+  const color = getValue(data.elements, 'color')
+  const size = getValue(data.elements, 'size')
+  const hrefObj = getValue(data.elements, 'main_image')
   return {
-    id: product.id,
+    id: data.id,
     sku,
     name,
     description,
     price: formatPrice(priceObj.value, priceObj.unitAbbreviation),
     color,
     size,
-    assetId: hrefObj.id,
+    imageId: hrefObj.id,
+    imageUrl: null,
   }
 }
 
@@ -35,7 +36,7 @@ const getProduct = id => {
     .then(res => {
       return res.json()
     })
-    .then(res => res.data)
+    .then(res => transformData(res.data))
     .catch(error => {
       return { error: error.message || error }
     })
@@ -51,7 +52,7 @@ const getProducts = () => {
       const products = []
       for (let p of res.data) {
         const product = await getProduct(p.id)
-        products.push(transformData(product))
+        products.push(product)
       }
       return products
     })
