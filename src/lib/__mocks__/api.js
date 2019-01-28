@@ -1,4 +1,6 @@
-export const products = [
+import { transformData } from '../api'
+
+const rawProducts = [
   {
     id: 69,
     key: 'Classic St Mawes 36',
@@ -208,8 +210,9 @@ export const products = [
   },
 ]
 
-const getProducts = () => products
+const products = rawProducts.map(rp => transformData(rp))
 
 export default {
-  getProducts,
+  rawProducts,
+  products,
 }

@@ -4,12 +4,12 @@ import { MemoryRouter, Link } from 'react-router-dom'
 import Products, { ProductItem } from '../Products'
 import api from 'lib/api'
 import formatPrice from 'lib/formatPrice'
-import { products } from 'lib/__mocks__/api'
+import mockApi from 'lib/__mocks__/api'
 
 describe('Products page', () => {
   it("should get products if there weren't any and pass them to setProducts", async () => {
     // mock api getProducts with some hardcoded products
-    api.getProducts = jest.fn().mockReturnValue(products)
+    api.getProducts = jest.fn().mockReturnValue(mockApi.products)
     const setProductsMock = jest.fn()
 
     const wrapper = await mount(
@@ -20,7 +20,7 @@ describe('Products page', () => {
     expect(wrapper.find(Products).state().error).toEqual('')
     expect(api.getProducts).toBeCalledTimes(1)
     expect(setProductsMock).toBeCalledTimes(1)
-    expect(setProductsMock).toBeCalledWith(products)
+    expect(setProductsMock).toBeCalledWith(mockApi.products)
   })
 
   it('should render passed products and NOT call an api to get them once again', async () => {
@@ -29,7 +29,7 @@ describe('Products page', () => {
 
     const wrapper = await mount(
       <MemoryRouter>
-        <Products products={products} setProducts={setProductsMock} />
+        <Products products={mockApi.products} setProducts={setProductsMock} />
       </MemoryRouter>
     )
     expect(wrapper.find(Products).state().error).toEqual('')
@@ -47,15 +47,10 @@ describe('Products page', () => {
     expect(h1.text()).toBe('DW Collection')
 
     const items = wrapper.find(ProductItem)
-    expect(items.length).toBe(products.length)
+    expect(items.length).toBe(mockApi.products.length)
     const item0divs = items.at(0).find('div')
-    expect(item0divs.at(0).text()).toBe(products[0].key)
-    expect(item0divs.at(1).text()).toBe(
-      formatPrice(
-        products[0].elements[3].value.value,
-        products[0].elements[3].value.unitAbbreviation
-      )
-    )
+    expect(item0divs.at(0).text()).toBe(mockApi.products[0].name)
+    expect(item0divs.at(1).text()).toBe(mockApi.products[0].price)
   })
 
   it('renders an error if it exists', async () => {
@@ -86,7 +81,7 @@ describe('Products page', () => {
   it('should render product items as links to their detail pages', async () => {
     const wrapper = await mount(
       <MemoryRouter>
-        <Products products={products} setProducts={jest.fn()} />
+        <Products products={mockApi.products} setProducts={jest.fn()} />
       </MemoryRouter>
     )
     wrapper.update()
@@ -97,7 +92,7 @@ describe('Products page', () => {
     })
     const links = wrapper.find(Link)
     links.forEach((link, index) => {
-      expect(link.props().to).toEqual(`/products/${products[index].id}`)
+      expect(link.props().to).toEqual(`/products/${mockApi.products[index].id}`)
     })
   })
 })

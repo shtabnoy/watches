@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import api from 'lib/api'
-import formatPrice from 'lib/formatPrice'
 import styled from '@emotion/styled'
 import colors from 'theme/colors'
 import { ErrorBox } from 'components'
@@ -38,6 +37,7 @@ class Products extends Component {
     // skip request if products were already downloaded
     if (products.length > 0) return
     const res = await api.getProducts()
+    // const asset = await api.getAsset(this.getValue(res))
     if (res.error) {
       return this.setState({
         error: res.error,
@@ -46,10 +46,10 @@ class Products extends Component {
     setProducts(res)
   }
 
-  getValue = (product, prop) => {
-    const propObj = product.elements.find(el => el.name === prop)
-    if (propObj) return propObj.value
-  }
+  // getValue = (product, prop) => {
+  //   const propObj = product.elements.find(el => el.name === prop)
+  //   if (propObj) return propObj.value
+  // }
 
   render() {
     const { products } = this.props
@@ -63,13 +63,8 @@ class Products extends Component {
           <div className="product-list">
             {products.map(product => (
               <ProductItem to={`/products/${product.id}`} key={product.id}>
-                <div>{this.getValue(product, 'name')}</div>
-                <div>
-                  {formatPrice(
-                    this.getValue(product, 'price').value,
-                    this.getValue(product, 'price').unitAbbreviation
-                  )}
-                </div>
+                <div>{product.name}</div>
+                <div>{product.price}</div>
               </ProductItem>
             ))}
           </div>

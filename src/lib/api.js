@@ -1,13 +1,31 @@
 import 'whatwg-fetch'
+import formatPrice from './formatPrice'
 
 const baseUrl = 'https://dev-api.danielwellington.com/frontend'
 
-const transformData = data => {
-  const priceObj = data.elements.find(el => el.name === 'price')
+const getValue = (elements, prop) => {
+  const propObj = elements.find(el => el.name === prop)
+  if (propObj) return propObj.value
+  return ''
+}
+
+export const transformData = product => {
+  const sku = getValue(product.elements, 'sku')
+  const name = getValue(product.elements, 'name')
+  const description = getValue(product.elements, 'description')
+  const priceObj = getValue(product.elements, 'price')
+  const color = getValue(product.elements, 'color')
+  const size = getValue(product.elements, 'size')
+  const hrefObj = getValue(product.elements, 'main_image')
   return {
-    id: data.id,
-    name: data.key,
-    price: priceObj.value,
+    id: product.id,
+    sku,
+    name,
+    description,
+    price: formatPrice(priceObj.value, priceObj.unitAbbreviation),
+    color,
+    size,
+    assetId: hrefObj.id,
   }
 }
 
@@ -33,7 +51,7 @@ const getProducts = () => {
       const products = []
       for (let p of res.data) {
         const product = await getProduct(p.id)
-        products.push(product)
+        products.push(transformData(product))
       }
       return products
     })
@@ -48,6 +66,7 @@ const getAsset = id => {
     .then(res => {
       return res.json()
     })
+    .then(res => res.data)
     .catch(error => {
       return { error: error.message || error }
     })
