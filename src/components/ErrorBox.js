@@ -10,11 +10,16 @@ const StyledError = styled.div`
   margin-bottom: 8px;
 `
 
-const ErrorBox = ({ msg }) => <StyledError>{msg}</StyledError>
+const ErrorBox = ({ children, className, style }) => (
+  <StyledError className={className} style={style}>
+    {children}
+  </StyledError>
+)
 
 ErrorBox.propTypes = {
-  msg: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
   className: PropTypes.string,
+  style: PropTypes.object,
 }
 
 export default ErrorBox

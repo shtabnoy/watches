@@ -134,7 +134,7 @@ describe('Product page', () => {
 
     const errors = wrapper.find(ErrorBox)
     expect(errors.length).toBe(1)
-    expect(errors.at(0).props().msg).toBe(
+    expect(errors.at(0).text()).toBe(
       'Unable to fetch product: Database corrupted'
     )
   })
@@ -160,7 +160,7 @@ describe('Product page', () => {
     wrapper.update()
     const errors = wrapper.find(ErrorBox)
     expect(errors.length).toBe(1)
-    expect(errors.at(0).props().msg).toBe('Unable to fetch image: Broken image')
+    expect(errors.at(0).text()).toBe('Unable to fetch image: Broken image')
   })
   it('should render Link with back arrow leading to /products', async () => {
     // mock api getProduct and getAsset

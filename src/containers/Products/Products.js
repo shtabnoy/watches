@@ -53,7 +53,7 @@ class Products extends Component {
       <>
         <h1>DW Collection</h1>
         {error ? (
-          <ErrorBox className="error" msg={error} />
+          <ErrorBox className="error">{error}</ErrorBox>
         ) : (
           <div className="product-list">
             {products.map(product => (

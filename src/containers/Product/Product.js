@@ -1,3 +1,4 @@
+/** @jsx jsx */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
@@ -6,6 +7,7 @@ import ProductType from 'types/Product'
 import styled from '@emotion/styled'
 import colors from 'theme/colors'
 import { ErrorBox } from 'components'
+import { jsx, css } from '@emotion/core'
 
 const ProductWrapper = styled.div`
   background-color: ${colors.pewter};
@@ -33,15 +35,20 @@ const Image = styled.img`
 const Heading = styled.h1`
   text-align: center;
   position: relative;
+  .back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    color: ${colors.nevada};
+    text-decoration: none;
+  }
 `
 
-const Back = styled(Link)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  cursor: pointer;
-  color: ${colors.nevada};
+const errorBackStyles = css`
   text-decoration: none;
+  color: white;
+  margin-right: 8px;
 `
 
 class Product extends Component {
@@ -111,15 +118,24 @@ class Product extends Component {
       <>
         {product && product.name && (
           <Heading>
-            <Back to="/products">&larr;</Back>
+            <Link className="back" to="/products">
+              &larr;
+            </Link>
             <span>{product && product.name}</span>
           </Heading>
         )}
-        {imageError && <ErrorBox msg={imageError} />}
+        {imageError && <ErrorBox>{imageError}</ErrorBox>}
         {product && product.imageUrl && (
           <Image src={product.imageUrl} alt={`The image of ${product.name}`} />
         )}
-        {error && <ErrorBox msg={error} />}
+        {error && (
+          <ErrorBox>
+            <Link css={errorBackStyles} to="/products">
+              &larr;
+            </Link>
+            {error}
+          </ErrorBox>
+        )}
         {product && (
           <ProductWrapper>
             <ProductField>
