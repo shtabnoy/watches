@@ -7,10 +7,11 @@ import './theme/styles.scss'
 class App extends Component {
   state = {
     products: [],
+    loaded: false,
   }
 
   setProducts = products => {
-    this.setState({ products })
+    this.setState({ products, loaded: true })
   }
 
   updateProducts = product => {
@@ -32,13 +33,14 @@ class App extends Component {
   }
 
   render() {
-    const { products } = this.state
+    const { products, loaded } = this.state
     return (
       <ProductContext.Provider
         value={{
           products,
           setProducts: this.setProducts,
           updateProducts: this.updateProducts,
+          loaded,
         }}
       >
         <BrowserRouter>

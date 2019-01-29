@@ -4,8 +4,8 @@ import ProductContext from '../../contexts/ProductContext'
 
 const ProductRoot = () => (
   <ProductContext.Consumer>
-    {({ products, setProducts }) => (
-      <Products products={products} setProducts={setProducts} />
+    {({ products, setProducts, loaded }) => (
+      <Products products={products} setProducts={setProducts} loaded={loaded} />
     )}
   </ProductContext.Consumer>
 )

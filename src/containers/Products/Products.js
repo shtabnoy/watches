@@ -26,6 +26,7 @@ class Products extends Component {
   static propTypes = {
     products: PropTypes.arrayOf(Product).isRequired,
     setProducts: PropTypes.func.isRequired,
+    loaded: PropTypes.bool.isRequired,
   }
 
   state = {
@@ -33,9 +34,9 @@ class Products extends Component {
   }
 
   async componentDidMount() {
-    const { products, setProducts } = this.props
-    // skip request if products were already downloaded
-    if (products.length > 0) return
+    const { setProducts, loaded } = this.props
+    // skip request if products were already loaded
+    if (loaded) return
     const res = await api.getProducts()
     if (res.error) {
       return this.setState({

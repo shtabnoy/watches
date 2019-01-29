@@ -3,7 +3,6 @@ import { mount } from 'enzyme'
 import { MemoryRouter, Link } from 'react-router-dom'
 import Products, { ProductItem } from '../Products'
 import api from 'lib/api'
-import formatPrice from 'lib/formatPrice'
 import mockApi from 'lib/__mocks__/api'
 
 describe('Products page', () => {
@@ -14,7 +13,7 @@ describe('Products page', () => {
 
     const wrapper = await mount(
       <MemoryRouter>
-        <Products products={[]} setProducts={setProductsMock} />
+        <Products products={[]} loaded={false} setProducts={setProductsMock} />
       </MemoryRouter>
     )
     expect(wrapper.find(Products).state().error).toEqual('')
@@ -23,13 +22,17 @@ describe('Products page', () => {
     expect(setProductsMock).toBeCalledWith(mockApi.products)
   })
 
-  it('should render passed products and NOT call an api to get them once again', async () => {
+  it('should NOT call an api to get products when they were loaded', async () => {
     api.getProducts = jest.fn()
     const setProductsMock = jest.fn()
 
     const wrapper = await mount(
       <MemoryRouter>
-        <Products products={mockApi.products} setProducts={setProductsMock} />
+        <Products
+          products={mockApi.products}
+          loaded={true}
+          setProducts={setProductsMock}
+        />
       </MemoryRouter>
     )
     expect(wrapper.find(Products).state().error).toEqual('')
@@ -62,7 +65,7 @@ describe('Products page', () => {
 
     const wrapper = await mount(
       <MemoryRouter>
-        <Products products={[]} setProducts={setProductsMock} />
+        <Products products={[]} loaded={false} setProducts={setProductsMock} />
       </MemoryRouter>
     )
 
@@ -81,7 +84,11 @@ describe('Products page', () => {
   it('should render product items as links to their detail pages', async () => {
     const wrapper = await mount(
       <MemoryRouter>
-        <Products products={mockApi.products} setProducts={jest.fn()} />
+        <Products
+          products={mockApi.products}
+          loaded={true}
+          setProducts={jest.fn()}
+        />
       </MemoryRouter>
     )
     wrapper.update()
