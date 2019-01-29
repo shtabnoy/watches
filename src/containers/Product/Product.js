@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import api from 'lib/api'
 import ProductType from 'types/Product'
 import styled from '@emotion/styled'
@@ -7,7 +8,6 @@ import colors from 'theme/colors'
 import { ErrorBox } from 'components'
 
 const ProductWrapper = styled.div`
-  margin: 8px 16px;
   background-color: ${colors.pewter};
   color: white;
 `
@@ -26,6 +26,22 @@ const ProductField = styled.div`
 
 const Image = styled.img`
   width: 256px;
+  display: block;
+  margin: 0 auto;
+`
+
+const Heading = styled.h1`
+  text-align: center;
+  position: relative;
+`
+
+const Back = styled(Link)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  color: ${colors.nevada};
+  text-decoration: none;
 `
 
 class Product extends Component {
@@ -53,14 +69,32 @@ class Product extends Component {
       updateProducts,
     } = this.props
 
-    // skip request if product is passed
+    // get product and its image if it's not passed
     if (!product) {
       const p = await api.getProduct(id)
+      if (p.error) {
+        return this.setState({ error: `Unable to fetch product: ${p.error}` })
+      }
+
       const a = await api.getAsset(p.imageId)
+      if (a.error) {
+        this.setState({
+          imageError: `Unable to fetch image: ${a.error}`,
+        })
+      }
+
       p.imageUrl = a.uri
       updateProducts(p)
-    } else if (!product.imageUrl) {
+    }
+    // get product image if it hasn't been downloaded yet
+    else if (!product.imageUrl) {
       const a = await api.getAsset(product.imageId)
+      if (a.error) {
+        return this.setState({
+          imageError: `Unable to fetch image: ${a.error}`,
+        })
+      }
+
       updateProducts({
         ...product,
         imageUrl: a.uri,
@@ -68,58 +102,43 @@ class Product extends Component {
     }
   }
 
-  // getProduct = async id => {
-  //   const res = await api.getProduct(id)
-  //   if (res.error) {
-  //     return this.setState({ error: res.error })
-  //   }
-  //   return res
-  // }
-
-  // getAsset = async product => {
-  //   const asset = await api.getAsset(product.imageId)
-  //   if (asset.error) {
-  //     return this.setState({ imageError: asset.error })
-  //   }
-  //   return asset
-  // }
-
   render() {
     const { product } = this.props
-    // const { error, imageError } = this.state
+    const { error, imageError } = this.state
     return (
       <>
+        <Heading>
+          <Back to="/products">&larr;</Back>
+          {product && product.name}
+        </Heading>
+        {imageError && <ErrorBox msg={imageError} />}
+        {product && product.imageUrl && (
+          <Image src={product.imageUrl} alt={`The image of ${product.name}`} />
+        )}
+        {error && <ErrorBox msg={error} />}
         {product && (
-          <>
-            <h1>{product.name}</h1>
-            <Image
-              src={product.imageUrl}
-              alt={`The image of ${product.name}`}
-            />
-            {/* {imageError ? <ErrorBox msg={imageError}> : <img src="#" alt={`The image of ${product.name}`} />} */}
-            <ProductWrapper>
-              <ProductField>
-                <div className="label">SKU</div>
-                <div>{product.sku}</div>
-              </ProductField>
-              <ProductField>
-                <div className="label">Description</div>
-                <div>{product.description}</div>
-              </ProductField>
-              <ProductField>
-                <div className="label">Price</div>
-                <div>{product.price}</div>
-              </ProductField>
-              <ProductField>
-                <div className="label">Color</div>
-                <div>{product.color}</div>
-              </ProductField>
-              <ProductField>
-                <div className="label">Size</div>
-                <div>{product.size}</div>
-              </ProductField>
-            </ProductWrapper>
-          </>
+          <ProductWrapper>
+            <ProductField>
+              <div className="label">SKU</div>
+              <div>{product.sku}</div>
+            </ProductField>
+            <ProductField>
+              <div className="label">Description</div>
+              <div>{product.description}</div>
+            </ProductField>
+            <ProductField>
+              <div className="label">Price</div>
+              <div>{product.price}</div>
+            </ProductField>
+            <ProductField>
+              <div className="label">Color</div>
+              <div>{product.color}</div>
+            </ProductField>
+            <ProductField>
+              <div className="label">Size</div>
+              <div>{product.size}</div>
+            </ProductField>
+          </ProductWrapper>
         )}
       </>
     )

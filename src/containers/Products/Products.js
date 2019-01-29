@@ -14,7 +14,7 @@ export const ProductItem = styled(Link)`
   font-size: 20px;
   background-color: ${colors.pewter};
   color: white;
-  margin: 0 16px 8px;
+  margin-bottom: 8px;
   display: flex;
   justify-content: space-between;
   &:hover {
@@ -37,7 +37,6 @@ class Products extends Component {
     // skip request if products were already downloaded
     if (products.length > 0) return
     const res = await api.getProducts()
-    // const asset = await api.getAsset(this.getValue(res))
     if (res.error) {
       return this.setState({
         error: res.error,

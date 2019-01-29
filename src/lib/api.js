@@ -34,6 +34,7 @@ const getProduct = id => {
   return window
     .fetch(`${baseUrl}/products/${id}`)
     .then(res => {
+      // throw new Error('Problem getting a product!')
       return res.json()
     })
     .then(res => transformData(res.data))
@@ -65,6 +66,7 @@ const getAsset = id => {
   return window
     .fetch(`${baseUrl}/assets/${id}`)
     .then(res => {
+      // throw new Error('Problem getting an asset!')
       return res.json()
     })
     .then(res => res.data)
