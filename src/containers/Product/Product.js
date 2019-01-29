@@ -107,10 +107,12 @@ class Product extends Component {
     const { error, imageError } = this.state
     return (
       <>
-        <Heading>
-          <Back to="/products">&larr;</Back>
-          {product && product.name}
-        </Heading>
+        {product && product.name && (
+          <Heading>
+            <Back to="/products">&larr;</Back>
+            {product && product.name}
+          </Heading>
+        )}
         {imageError && <ErrorBox msg={imageError} />}
         {product && product.imageUrl && (
           <Image src={product.imageUrl} alt={`The image of ${product.name}`} />
