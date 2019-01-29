@@ -24,6 +24,12 @@ const ProductField = styled.div`
     width: 50%;
     padding: 16px;
   }
+  @media (max-width: 600px) {
+    flex-wrap: wrap;
+    & > div {
+      width: 100%;
+    }
+  }
 `
 
 const Image = styled.img`

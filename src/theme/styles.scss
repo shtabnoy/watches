@@ -16,4 +16,7 @@ h1 {
   color: #5b6a71;
   margin: 0;
   margin-bottom: 8px;
+  @media (max-width: 450px) {
+    font-size: 22px;
+  }
 }
