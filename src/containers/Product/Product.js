@@ -83,8 +83,10 @@ class Product extends Component {
         })
       }
 
-      p.imageUrl = a.uri
-      updateProducts(p)
+      updateProducts({
+        ...p,
+        imageUrl: a.uri,
+      })
     }
     // get product image if it hasn't been downloaded yet
     else if (!product.imageUrl) {
@@ -110,7 +112,7 @@ class Product extends Component {
         {product && product.name && (
           <Heading>
             <Back to="/products">&larr;</Back>
-            {product && product.name}
+            <span>{product && product.name}</span>
           </Heading>
         )}
         {imageError && <ErrorBox msg={imageError} />}
@@ -122,23 +124,23 @@ class Product extends Component {
           <ProductWrapper>
             <ProductField>
               <div className="label">SKU</div>
-              <div>{product.sku}</div>
+              <div className="value">{product.sku}</div>
             </ProductField>
             <ProductField>
               <div className="label">Description</div>
-              <div>{product.description}</div>
+              <div className="value">{product.description}</div>
             </ProductField>
             <ProductField>
               <div className="label">Price</div>
-              <div>{product.price}</div>
+              <div className="value">{product.price}</div>
             </ProductField>
             <ProductField>
               <div className="label">Color</div>
-              <div>{product.color}</div>
+              <div className="value">{product.color}</div>
             </ProductField>
             <ProductField>
               <div className="label">Size</div>
-              <div>{product.size}</div>
+              <div className="value">{product.size}</div>
             </ProductField>
           </ProductWrapper>
         )}

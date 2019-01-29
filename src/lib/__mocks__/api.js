@@ -212,7 +212,23 @@ const rawProducts = [
 
 const products = rawProducts.map(rp => transformData(rp))
 
+const asset = {
+  id: 66,
+  type: 'image',
+  filename: 'cl36-stmawes-rg_1_2.png',
+  uri:
+    'https://www.danielwellington.com/media/staticbucket/media/catalog/product/cache/thumbnail/1200x/dc4095f997835e64a6e07c1125933e12/c/l/cl36-stmawes-rg_1_2.png',
+  path: '/',
+  mimetype: 'image/png',
+  creationDate: 1507796410,
+  modificationDate: 1507796410,
+  userOwner: '2',
+  userModification: '2',
+  properties: null,
+}
+
 export default {
   rawProducts,
   products,
+  asset,
 }
