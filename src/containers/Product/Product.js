@@ -133,7 +133,7 @@ class Product extends Component {
             <Link css={errorBackStyles} to="/products">
               &larr;
             </Link>
-            {error}
+            <span>{error}</span>
           </ErrorBox>
         )}
         {product && (

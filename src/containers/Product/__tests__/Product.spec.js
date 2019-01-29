@@ -134,9 +134,12 @@ describe('Product page', () => {
 
     const errors = wrapper.find(ErrorBox)
     expect(errors.length).toBe(1)
-    expect(errors.at(0).text()).toBe(
-      'Unable to fetch product: Database corrupted'
-    )
+    expect(
+      errors
+        .at(0)
+        .find('span')
+        .text()
+    ).toBe('Unable to fetch product: Database corrupted')
   })
   it("should render an image error if there's a problem to get an image", async () => {
     // mock api getProduct and getAsset

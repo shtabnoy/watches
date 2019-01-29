@@ -4,6 +4,7 @@ import { MemoryRouter, Link } from 'react-router-dom'
 import Products, { ProductItem } from '../Products'
 import api from 'lib/api'
 import mockApi from 'lib/__mocks__/api'
+import { ErrorBox } from 'components'
 
 describe('Products page', () => {
   it("should get products if there weren't any and pass them to setProducts", async () => {
@@ -41,7 +42,7 @@ describe('Products page', () => {
 
     wrapper.update()
 
-    const error = wrapper.find('.error')
+    const error = wrapper.find(ErrorBox)
     const productList = wrapper.find('.product-list')
     expect(error.length).toBe(0)
     expect(productList.length).toBe(1)
@@ -74,7 +75,7 @@ describe('Products page', () => {
     )
     wrapper.update()
 
-    const error = wrapper.find('.error')
+    const error = wrapper.find(ErrorBox)
     const productList = wrapper.find('.product-list')
     expect(error.length).toBe(1)
     expect(error.text()).toBe('Failed to fetch products')
